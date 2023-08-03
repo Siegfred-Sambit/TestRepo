@@ -16,41 +16,22 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  check_skip_flags:
+    name: Check skip flags
     runs-on: ubuntu-latest
-    if: ${{ github.ref != 'refs/heads/master' && contains(github.event.head_commit.message, 'test')}}
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    outputs:
+      head-commit-message: ${{ steps.get_head_commit_message.outputs }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - name: print last commit message
-        env:
-          github_event_head_commit_message: ${{ github.event.head_commit.message }}
-        run: echo "${{ env.github_event_head_commit_message }}"
+      - name: Get repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Print head git commit message
+        id: get_head_commit_message
+        run: echo "::set-output name=headCommitMsg::$(git show -s --format=%s)"
 
-      - name: Debug commit message
-        run: echo "Commit Message:${{ github.event.head_commit.message }}"
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-        
-  merge_to_main:
-    runs-on: ubuntu-latest 
-    if: ${{ github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'Last*')}}
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: print last commit message
-        env:
-          github_event_head_commit_message: ${{ github.event.head_commit.message }}
-        run: echo "${{ env.github_event_head_commit_message }}"
-          
-      - name: Debug commit message
-        run: echo "Commit Message:${{ github.event.head_commit.message }}"
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+  e2e_tests_A:
+    name: E2E tests
+    runs-on: self-hosted
+    needs: check_skip_flags
+    if: ${{ !contains(steps.get_head_commit_message.outputs.data, '[skip e2e_tests_A]') }}
