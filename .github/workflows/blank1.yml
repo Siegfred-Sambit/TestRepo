@@ -39,7 +39,7 @@ jobs:
         
   merge_to_main:
     runs-on: ubuntu-latest 
-    if: ${{ github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, "*ast*")}}
+    if: ${{ github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'Last*')}}
 
     steps:
       - uses: actions/checkout@v3
