@@ -32,6 +32,6 @@ jobs:
 
   e2e_tests_A:
     name: E2E tests
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: check_skip_flags
     if: ${{ !contains(steps.get_head_commit_message.outputs.data, '[skip e2e_tests_A]') }}
