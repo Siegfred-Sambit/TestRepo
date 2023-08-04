@@ -28,6 +28,6 @@ jobs:
 
           # Set the output named "docs_changed"
           #Write-Host "::set-output name=docs_changed::$HasDiff"
-          run: echo "docs_changed=$HasDiff" >>$GITHUB_OUTPUT
+          echo "docs_changed=$HasDiff" >>$GITHUB_OUTPUT
 
           
