@@ -10,6 +10,7 @@ jobs:
   conditional_step:
     runs-on: ubuntu-latest
     steps:
+
     - uses: actions/checkout@v3
       with:
         # Checkout as many commits as needed for the diff
@@ -33,4 +34,5 @@ jobs:
       # steps.<step_id>.outputs.<output name>
       if: steps.check_file_changed.outputs.docs_changed == 'True'
       run: echo publish docs
+
           
