@@ -1,36 +1,58 @@
-name: demo
+
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch.
+  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "final" ]
+    branches:
+      - '**'
   pull_request:
-    branches: [ "final" ]
+    branches:
+      - '**'
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  conditional_step:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    if: ${{ github.ref != 'refs/heads/master' && contains(github.event.head_commit.message, 'test')}}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v3
-      with:
-        # Checkout as many commits as needed for the diff
-        fetch-depth: 2
-    - shell: pwsh
-      # Give an id to the step, so we can reference it later
-      id: check_file_changed
-      run: |
-        # Diff HEAD with the previous commit
-        $diff = git diff --name-only HEAD^ HEAD
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: print last commit message
+        env:
+          github_event_head_commit_message: ${{ github.event.head_commit.message }}
+        run: echo "${{ env.github_event_head_commit_message }}"
 
-        # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
-        $SourceDiff = $diff | Where-Object { $_ -match '^docs/' -or $_ -match '.md$' }
-        $HasDiff = $SourceDiff.Length -gt 0
+      - name: Debug commit message
+        run: echo "Commit Message:${{ github.event.head_commit.message }}"
 
-        # Set the output named "docs_changed"
-        Write-Host "::set-output name=docs_changed::$HasDiff"
-
-    # Run the step only with "docs_changed" equals "True"
-    - shell: pwsh
-      # steps.<step_id>.outputs.<output name>
-      if: steps.check_file_changed.outputs.docs_changed == 'True'
-      run: echo publish docs
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+        
+  merge_to_main:
+    runs-on: ubuntu-latest 
+    if: ${{ github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'Merge pull request') && github.event.pull_request.changed_files > 0 }}
+    #if: (github.event_name == 'push' && contains(toJSON(github.event.head_commit.message), 'Merge pull request ') == true)
+    #if: ${{ github.ref == 'refs/heads/master' && contains(github.event.head_commit.message, 'Merge pull request')}}
+    #if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains( github.event.head_commit.message, 'Merge pull request')) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: print last commit message
+        env:
+          github_event_head_commit_message: ${{ github.event.head_commit.message }}
+        run: echo "${{ env.github_event_head_commit_message }}"
           
+      - name: Debug commit message
+        run: echo "Commit Message:${{ github.event.head_commit.message }}"
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
