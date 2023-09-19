@@ -1,38 +1,31 @@
-name: demo
+name: Terraform Infra
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch.
   push:
-    branches: [ "final" ]
+    branches:
+    - master
+    
   pull_request:
-    branches: [ "final" ]
+    branches:
+    - master
+    types:
+    - closed
 
 jobs:
-  conditional_step:
+  terraform_apply:
     runs-on: ubuntu-latest
+    
     steps:
+    - name: checkout code
+      uses: actions/checkout@v3
+      
 
-    - uses: actions/checkout@v3
-      with:
-        # Checkout as many commits as needed for the diff
-        fetch-depth: 2
-    - shell: pwsh
-      # Give an id to the step, so we can reference it later
-      id: check_file_changed
+    - name: list files
+      id: changes
+      if: github.ref == 'refs/heads/main' && github.event_name == 'pull_request' && contains ( github.event.head_commit.message == 'Merge pull request' )
       run: |
-        # Diff HEAD with the previous commit
-        $diff = git diff --name-only HEAD^ HEAD
-
-        # Check if a file under docs/ or with the .md extension has changed (added, modified, deleted)
-        $SourceDiff = $diff | Where-Object { $_ -match '^docs/' -or $_ -match '.md$' }
-        $HasDiff = $SourceDiff.Length -gt 0
-
-        # Set the output named "docs_changed"
-        Write-Host "::set-output name=docs_changed::$HasDiff"
-
-    # Run the step only with "docs_changed" equals "True"
-    - shell: pwsh
-      # steps.<step_id>.outputs.<output name>
-      if: steps.check_file_changed.outputs.docs_changed == 'True'
-      run: echo publish docs
+        URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
+        FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+        echo $FILES
 
           
