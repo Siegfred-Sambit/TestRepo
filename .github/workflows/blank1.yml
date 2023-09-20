@@ -33,7 +33,7 @@ jobs:
           
       - name: list files
         run: |
-          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR}/files"
+          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{PR}}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
           echo $FILES
 
