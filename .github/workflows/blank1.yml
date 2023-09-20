@@ -26,16 +26,14 @@ jobs:
           state: closed
           
       # This will echo "Your PR is 7", or be skipped if there is no current PR.
-      - name: Output PR
-        id: fly
-        run: echo PR=${PR} >> $GITHUB_OUTPUT
+      - run: echo "Your PR is ${PR}"
         if: success() && steps.findPr.outputs.number
         env:
           PR: ${{ steps.findPr.outputs.pr }}
           
       - name: list files
         run: |
-          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.fly.PR }}/files"
+          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.findPr.outputs.pr }}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
           echo $FILES
 
