@@ -1,4 +1,5 @@
 name: Terraform Infra
+
 on:
   push:
     branches:
@@ -10,7 +11,7 @@ on:
     - closed
 
 jobs:
-  terraform-apply:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
