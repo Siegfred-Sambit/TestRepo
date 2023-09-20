@@ -26,7 +26,7 @@ jobs:
           state: closed
           
       # This will echo "Your PR is 7", or be skipped if there is no current PR.
-      - run: echo PR=${PR}" >> $GITHUB_OUTPUT
+      - run: echo PR=${PR} >> $GITHUB_OUTPUT
         if: success() && steps.findPr.outputs.number
         env:
           PR: ${{ steps.findPr.outputs.pr }}
