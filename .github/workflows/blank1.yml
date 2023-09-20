@@ -1,32 +1,27 @@
 name: Terraform Infra
-
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
     branches:
-      - '**'
-  
+    - master
   pull_request:
     branches:
     - master
     types:
     - closed
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  terraform_apply:
+  terraform-apply:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: checkout code
-      uses: actions/checkout@v3
-      
+      - uses: actions/checkout@v3
 
-    - name: list files
-      id: changes
-      if: github.ref == 'refs/heads/master' && contains ( github.event.head_commit.message == 'Merge pull request' )
-      run: |
-        URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
-        FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-        echo $FILES
+      - name: Run a one-line script
+        run: echo Hello, world!
 
+      - name: list files
+        id: changes
+        if: ${{ github.ref == 'refs/heads/master' && contains ( github.event.head_commit.message == 'Merge pull request' ) }}
+        run: |
+          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
+          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+          echo $FILES
