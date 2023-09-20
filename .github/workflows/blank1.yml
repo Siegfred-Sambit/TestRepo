@@ -30,3 +30,12 @@ jobs:
         if: success() && steps.findPr.outputs.number
         env:
           PR: ${{ steps.findPr.outputs.pr }}
+          
+      - name: list files
+        run: |
+          URL="https://api.github.com/repos/Siegfred-Sambit/TestRepo/pulls/${{ PR }}/files"
+          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+          echo $FILES
+
+
+
