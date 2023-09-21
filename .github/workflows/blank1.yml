@@ -39,5 +39,6 @@ jobs:
           echo $FILES
 
           for file_changed in `echo $FILES`; do
-            echo "${REPO_PATH}${file_changed}"
+            my_variable="${REPO_PATH}${file_changed}"
+            echo $my_variable
           done
