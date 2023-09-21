@@ -35,11 +35,9 @@ jobs:
         run: |
           URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.findPr.outputs.pr }}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+          REPO_PATH="${{ github.workspace }}/"
           echo $FILES
 
           for file_changed in `echo $FILES`; do
-            echo $file_changed
-            SCRIPT=$(readlink -f "$file_changed")
-            SCRIPTPATH=$(dirname "$SCRIPT")
-            echo $SCRIPTPATH
+            echo "${REPO_PATH}${file_changed}"
           done
