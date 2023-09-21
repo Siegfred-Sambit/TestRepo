@@ -40,3 +40,6 @@ jobs:
           for file_changed in `echo $FILES`; do
             echo $file_changed
           done
+
+          monitored_paths=$(echo "${{ github.event.pull_request.paths }}" | tr -d '[] ')
+          echo $monitored_paths
