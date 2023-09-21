@@ -38,8 +38,8 @@ jobs:
           echo $FILES
 
           for file_changed in `echo $FILES`; do
-            echo $file_changed | pwd
+            echo $file_changed
+            SCRIPT=$(readlink -f "$file_changed")
+            SCRIPTPATH=$(dirname "$SCRIPT")
+            echo $SCRIPTPATH
           done
-
-          echo "${{ github.event.pull_request.paths }}"
-
