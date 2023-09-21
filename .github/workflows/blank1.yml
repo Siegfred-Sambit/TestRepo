@@ -37,5 +37,6 @@ jobs:
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
           echo $FILES
 
-
-
+          for file_changed in `echo $FILES`; do
+            echo $file_changed
+          done
