@@ -25,4 +25,4 @@ jobs:
   
   build-tf-apply:
     if: github.ref == 'refs/heads/master' && github.event_name == 'pull_request'
-    uses: Siegfred-Sambit/TestRepo/.github/workflows/apply.yml
+    uses: Siegfred-Sambit/TestRepo/.github/workflows/apply.yml@master
