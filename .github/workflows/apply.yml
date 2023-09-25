@@ -1,9 +1,10 @@
 name: Terraform Infra
 
 on:
-  pull_request:
-    branches:
-    - master
+  workflow_call:
+  #pull_request:
+    #branches:
+    #- master
     #types:
     #- closed
 
