@@ -40,5 +40,7 @@ jobs:
             my_variable="${REPO_PATH}${file_changed}"
             echo $my_variable
             trimmed_path=${my_variable#"/home/runner/work/TestRepo/"}
-            echo $trimmed_path
+            echo $trimmed_path >> list.txt
+            cat list.txt
           done
+        shell: bash
