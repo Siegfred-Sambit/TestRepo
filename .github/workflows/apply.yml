@@ -39,6 +39,6 @@ jobs:
           for file_changed in `echo $FILES`; do
             my_variable="${REPO_PATH}${file_changed}"
             echo $my_variable
-            trimmed_path=${my_variable%"/home/runner/work/TestRepo/"}
+            trimmed_path=${my_variable#"/home/runner/work/TestRepo/"}
             echo $trimmed_path
           done
