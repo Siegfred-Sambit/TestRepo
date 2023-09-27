@@ -37,10 +37,15 @@ jobs:
           echo $FILES
 
           for file_changed in `echo $FILES`; do
-            my_variable="${REPO_PATH}${file_changed}"
-            echo $my_variable
-            trimmed_path=${my_variable#"/home/runner/work/TestRepo/"}
-            echo $trimmed_path >> list.txt
-            cat list.txt
+            echo $file_changed >> list.txt
+            #my_variable="${REPO_PATH}${file_changed}"
+            #echo $file_changed
+            #trimmed_path=${my_variable#"/home/runner/work/TestRepo/"}
+            #echo $trimmed_path >> list.txt
+            #cat list.txt
           done
+           cat list.txt
+           
         shell: bash
+
+        
