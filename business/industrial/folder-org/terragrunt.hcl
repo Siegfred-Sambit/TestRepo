@@ -3,3 +3,4 @@ My file.
 This is a text file
 To get the sha value
 Incorrect pr number
+New pr clue
