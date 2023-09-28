@@ -23,7 +23,7 @@ jobs:
 
       - name: Use PR Number
         run: |
-          PR_NUMBER=${{ steps.pr_number.outputs.pr_number }}
+          PR_NUMBER=${{ github.event.pull_request.number }}
           echo "Merged PR Number: $PR_NUMBER"
 
       #- uses: jwalton/gh-find-current-pr@v1
@@ -40,7 +40,7 @@ jobs:
           
       - name: list files
         run: |
-          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.pr_number.outputs.pr_number }}/files"
+          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
           REPO_PATH="${{ github.workspace }}/"
           echo $FILES
