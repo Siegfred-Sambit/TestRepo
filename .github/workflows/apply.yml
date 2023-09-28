@@ -53,6 +53,7 @@ jobs:
             #echo $trimmed_path >> list.txt
             #cat list.txt
           done
+           echo "Hello World"
            cat list.txt
            
         shell: bash
