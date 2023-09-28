@@ -17,5 +17,9 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
-      - name: Print SHA
-        run: echo "The Pull Request SHA is ${{ github.event.pull_request.head.sha }}"
+      - name: Get Pull Request Number
+        run: echo "PULL_NUMBER=$(echo "$GITHUB_REF" | awk -F / '{print $3}')" >> $GITHUB_ENV
+        shell: bash
+
+      - name: print pr number
+        run: echo "The Pull Request SHA is ${{ env.PULL_NUMBER }}"
