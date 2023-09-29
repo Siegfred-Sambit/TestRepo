@@ -43,8 +43,7 @@ jobs:
           URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
           #REPO_PATH="${{ github.workspace }}/"
-          echo $FILES | grep "*terragrunt.hcl" >> wow.txt
-          cat wow.txt
+          echo $FILES
 
           for file_changed in `echo $FILES`; do
             echo $file_changed >> list.txt
@@ -55,6 +54,7 @@ jobs:
             #cat list.txt
           done
            echo "Hello World"
-           cat list.txt
+           cat list.txt | grep "*terragrunt.hcl" >> wow.txt
+           cat wow.txt
            
         shell: bash
