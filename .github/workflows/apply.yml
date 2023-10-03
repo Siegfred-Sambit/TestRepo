@@ -54,7 +54,15 @@ jobs:
             #cat list.txt
           done
            echo "Hello World"
-           cat list.txt | grep terragrunt.hcl > lik.txt
-           cat lik.txt
-           
+           cat list.txt | grep terragrunt.hcl > like.txt
+           cat like.txt
+  
         shell: bash
+
+
+      - name: Run Script on Desired Value
+        run: |
+          chmod +x ./.github/scripts/test.sh
+          ./.github/scripts/test.sh like.txt
+        shell: bash
+
