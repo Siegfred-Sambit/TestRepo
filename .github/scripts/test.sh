@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e -f
 
-#BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-#FOLDER="$( cd "$BASE/../.." >/dev/null 2>&1 && pwd )"
-#echo $FOLDER
-#LIST_COMMANDS=$FOLDER/list-command.txt
+BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+FOLDER="$( cd "$BASE/../.." >/dev/null 2>&1 && pwd )"
+echo $FOLDER
+LIST_COMMANDS=$FOLDER/like.txt
+
 #COMMAND_LIST=$FOLDER/command_list.txt
 #export TG_ACTION="plan"
 
