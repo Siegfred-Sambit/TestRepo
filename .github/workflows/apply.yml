@@ -68,8 +68,8 @@ jobs:
       - name: Run Script on Desired Value
         run: |
           # Download the uploaded text file
-          curl -o my-text-file.txt -L ${{ steps.upload.outputs.artifactpath }}
+          cat artifact/like.txt
           
           chmod +x ./.github/scripts/test.sh
-          ./.github/scripts/test.sh my-text-file.txt
+          ./.github/scripts/test.sh artifact/like.txt
         shell: bash
