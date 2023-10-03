@@ -21,7 +21,7 @@ execute_command() {
     while IFS= read -r command; do
         echo "Executing command: $command"
         $command
-    done < like.txt
+    done < my-text-file.txt
 }
 
 ==============================================
