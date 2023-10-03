@@ -55,14 +55,21 @@ jobs:
           done
            echo "Hello World"
            cat list.txt | grep terragrunt.hcl > like.txt
-           cat like.txt
+    
   
         shell: bash
 
+      - name: Upload Output as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-testfile
+          path: like.txt
 
       - name: Run Script on Desired Value
         run: |
+          # Download the uploaded text file
+          curl -o my-text-file.txt -L ${{ steps.upload.outputs.artifactpath }}
+          
           chmod +x ./.github/scripts/test.sh
-          ./.github/scripts/test.sh ./like.txt
+          ./.github/scripts/test.sh my-text-file.txt
         shell: bash
-
