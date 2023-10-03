@@ -63,6 +63,6 @@ jobs:
       - name: Run Script on Desired Value
         run: |
           chmod +x ./.github/scripts/test.sh
-          ./.github/scripts/test.sh like.txt
+          ./.github/scripts/test.sh ../like.txt
         shell: bash
 
