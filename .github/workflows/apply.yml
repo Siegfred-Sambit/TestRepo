@@ -20,47 +20,17 @@ jobs:
       - name: Get PR Number
         id: pr_number
         run: echo "PR Number is ${{ github.event.pull_request.number }}"
-
-      - name: Use PR Number
-        run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          echo "Merged PR Number: $PR_NUMBER"
-
-      #- uses: jwalton/gh-find-current-pr@v1
-        #id: findPr
-        #with:
-          # Can be "open", "closed", or "all".  Defaults to "open".
-          #state: closed
-          
-      # This will echo "Your PR is 7", or be skipped if there is no current PR.
-      #- run: echo "Your PR is ${PR}"
-        #if: success() && steps.findPr.outputs.number
-        #env:
-          #PR: ${{ steps.findPr.outputs.pr }}
           
       - name: list files
         run: |
-          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
-          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-          #REPO_PATH="${{ github.workspace }}/"
-          echo $FILES
-
-          for file_changed in `echo $FILES`; do
-            echo $file_changed >> list.txt
-            #my_variable="${REPO_PATH}${file_changed}"
-            #echo $file_changed
-            #trimmed_path=${my_variable#"/home/runner/work/TestRepo/"}
-            #echo $trimmed_path >> list.txt
-            #cat list.txt
-          done
-           echo "Hello World"
-           cat list.txt | grep terragrunt.hcl > like.txt
-    
+          URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"`
+          FILES=$(curl -s -X GET -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" $URL | jq -r '.[] | .filename')
+          echo changed_files=$FILES >> $GITHUB_ENV
         shell: bash
 
       - name: Run Script on Desired Value
         run: |
           chmod +x ./.github/scripts/test.sh
-          ./.github/scripts/test.sh
-          
+          ./.github/scripts/test.sh \
+          --changed_files "${{ env.changed_files }}"
         shell: bash
