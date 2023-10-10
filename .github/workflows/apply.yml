@@ -32,6 +32,6 @@ jobs:
       - name: Run Script on Desired Value
         run: |
           chmod +x ./.github/scripts/test.sh
-          ./.github/scripts/test.sh \
-          --changed_files "${{ env.changed_files }}"
+           ./.github/scripts/test.sh \
+           --changed_files "${{ env.changed_files }}"
         shell: bash
