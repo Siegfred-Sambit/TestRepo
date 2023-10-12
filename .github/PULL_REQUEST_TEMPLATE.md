@@ -1,6 +1,9 @@
-### GitHub Pull Request Checklist
+## GitHub Pull Request Checklist
 
-#### **Code Quality**
+### Description
+> Please include a summary of the changes and which issue has been fixed. Please also include relevant motivation and context. List any dependencies that are required for this change
+
+#### **Developer Code Check**
 - [ ] Code follows the project's coding conventions and style guide.
 - [ ] Meaningful variable and function names are used.
 - [ ] Code is well-organized and easy to understand.
